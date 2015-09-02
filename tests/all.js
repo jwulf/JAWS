@@ -1,32 +1,48 @@
-var Config            = require('../../lib/config'),
-    DynamoDbLocal     = require('dynamodb-local'),
-    dynamoEntptPieces = Config.aws.dynamoDbEndpoint.split(':'),
-    dynamoLocalPort   = dynamoEntptPieces[dynamoEntptPieces.length - 1];
+'use strict';
 
-describe('AllTests', function () {
-    before(function (done) {
-        this.timeout(0);  //dont timeout anything, creating tables, deleting tables etc
+/**
+ * JAWS: Spot Tests
+ * @type {async|exports|module.exports}
+ */
+var async = require('async'),
+    os = require('os'),
+    path = require('path'),
+    AWS = require('aws-sdk'),
+    shortid = require('shortid');
 
-        if (dynamoLocalPort) {
-            DynamoDbLocal.launch(dynamoLocalPort, null, ['-sharedDb'])
-                .then(function () {
-                    done();
-                })
-                .catch(function (err) {
-                    console.log("Error starting local dynamo", err);
-                    done(err);
-                });
-        }
-        else {
-            done();
-        }
-    });
+// Require ENV vars
+require('dotenv').config({ path: __dirname + '/.env' });
 
-    after(function () {
-        if (dynamoLocalPort) DynamoDbLocal.stop(dynamoLocalPort);
-    });
+// Define Test Data
+var testData = {};
+testData.name = 'test-prj';
+testData.notifyEmail = 'tester@jawsstack.com';
+testData.stage = 'unittest';
+testData.region = 'us-east-1';
+testData.envBucket = process.env.TEST_JAWS_ENV_BUCKET;
+testData.profile = process.env.TEST_JAWS_PROFILE;
+testData.iamRoleARN = process.env.TEST_JAWS_IAM_ROLE;
 
-    //require tests vs inline so we can run sequentially which gives us chance to prepare dbs before each test
-    require('./run');
-    require('./deploy');
+// Add aws-sdk to Test Data Object (helps clean up test resources, etc.)
+testData.AWS = require('aws-sdk');
+testData.AWS.config.credentials = new testData.AWS.SharedIniFileCredentials({
+  profile: testData.profile,
 });
+testData.AWS.config.update({
+  region: testData.region,
+});
+
+// Require Tests ("new" must be last)
+var tests = [
+  require('./tests/tag'),
+  require('./tests/deploy_lambda'),
+  require('./tests/deploy_api'),
+  require('./tests/install'),
+  require('./tests/env'),
+  require('./tests/new'),
+];
+
+// Run Tests
+async.eachSeries(tests, function(test, cb) {
+  test(testData, function(testData) { return cb(); });
+}, function(error) { console.log('Tests completed'); });
