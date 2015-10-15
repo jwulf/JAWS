@@ -4,16 +4,16 @@
  * JAWS Test: Dash Command
  */
 
-var Jaws = require('../../lib/index.js'),
+let Jaws = require('../../lib/index.js'),
     CMDdash = require('../../lib/commands/dash'),
-    CMDtag = require('../../lib/commands/tag'),
+    Tag = require('../../lib/commands/Tag'),
     JawsError = require('../../lib/jaws-error'),
     testUtils = require('../test_utils'),
     Promise = require('bluebird'),
     path = require('path'),
     assert = require('chai').assert;
 
-var config = require('../config'),
+let config = require('../config'),
     projPath,
     JAWS;
 
@@ -37,10 +37,12 @@ describe('Test "dash" command', function() {
           JAWS = new Jaws();
         })
         .then(function() {
-          return CMDtag.tagAll(JAWS, 'lambda');
+          let CmdTag = new Tag(JAWS, 'lambda')
+          return CmdTag.tagAll();
         })
         .then(function() {
-          return CMDtag.tagAll(JAWS, 'endpoint');
+          let CmdTag = new Tag(JAWS, 'endpoint')
+          return CmdTag.tagAll();
         })
         .then(function() {
           done();

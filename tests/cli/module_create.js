@@ -4,15 +4,15 @@
  * JAWS Test: New Action Command
  */
 
-var Jaws = require('../../lib/index.js'),
-    CmdNewAction = require('../../lib/commands/module_create'),
+let Jaws = require('../../lib/index.js'),
+    CmdNewAction = require('../../lib/commands/ModuleCreate'),
     JawsError = require('../../lib/jaws-error'),
     testUtils = require('../test_utils'),
     Promise = require('bluebird'),
     path = require('path'),
     assert = require('chai').assert;
 
-var config = require('../config'),
+let config = require('../config'),
     projPath,
     JAWS;
 
@@ -40,7 +40,7 @@ describe('Test "new module" command', function() {
     it('Test "new module" command', function(done) {
       this.timeout(0);
 
-      var module = {
+      let module = {
         type: 'both',
         name: 'users',
         action: 'list',
@@ -50,7 +50,7 @@ describe('Test "new module" command', function() {
 
       CmdNewAction.run(JAWS, module.name, module.action, module.runtime, module.pkgMgr, module.type)
           .then(function() {
-            var jawsJson = require(path.join(process.cwd(), 'aws_modules/users/list/awsm.json'));
+            let jawsJson = require(path.join(process.cwd(), 'aws_modules/users/list/awsm.json'));
             assert.isTrue(typeof jawsJson.lambda.cloudFormation !== 'undefined');
             assert.isTrue(typeof jawsJson.apiGateway.cloudFormation !== 'undefined');
             assert.isTrue(jawsJson.apiGateway.cloudFormation.Path === 'users/list');

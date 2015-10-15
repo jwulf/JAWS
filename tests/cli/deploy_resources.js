@@ -4,9 +4,9 @@
  * JAWS Test: Deploy Resources
  */
 
-var Jaws = require('../../lib/index.js'),
-    CmdDeployResources = require('../../lib/commands/deploy_resources'),
-    CmdTag = require('../../lib/commands/tag'),
+let Jaws = require('../../lib/index.js'),
+    CmdDeployResources = require('../../lib/commands/DeployResources'),
+    CmdTag = require('../../lib/commands/Tag'),
     JawsError = require('../../lib/jaws-error'),
     testUtils = require('../test_utils'),
     Promise = require('bluebird'),

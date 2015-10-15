@@ -1,14 +1,14 @@
 'use strict';
 
-var path = require('path'),
-  AWS = require('aws-sdk');
+let path = require('path'),
+    AWS = require('aws-sdk');
 
-// Require ENV vars, can also set ENV vars in your IDE
+// Require ENV lets, can also set ENV lets in your IDE
 require('dotenv').config({path: path.join(__dirname, '.env'), silent: true});
 
 process.env.JAWS_VERBOSE = true;
 
-var config = {
+let config = {
   name: 'test-prj',
   domain: process.env.TEST_JAWS_DOMAIN,
   notifyEmail: 'tester@jawsstack.com',

@@ -4,9 +4,9 @@
  * JAWS Test: Deploy Endpoint
  */
 
-var Jaws = require('../../lib/index.js'),
-    CmdDeployEndpoints = require('../../lib/commands/deploy_endpoint'),
-    CmdTag = require('../../lib/commands/tag'),
+let Jaws = require('../../lib/index.js'),
+    CmdDeployEndpoints = require('../../lib/commands/DeployEndpoint'),
+    Tag = require('../../lib/commands/Tag'),
     JawsError = require('../../lib/jaws-error'),
     testUtils = require('../test_utils'),
     Promise = require('bluebird'),
@@ -38,7 +38,8 @@ describe('Test deploy endpoint command', function() {
           lambdaPaths.lambda3 = path.join(projPath, 'aws_modules', 'users', 'create', 'awsm.json');
         })
         .then(function() {
-          CmdTag.tagAll(JAWS, 'endpoint', false);
+          let CmdTag = new Tag(JAWS, 'endpoint')
+          return CmdTag.tagAll(false);
         }).then(done);
   });
 
@@ -71,10 +72,10 @@ describe('Test deploy endpoint command', function() {
     it('Check API ID was added to project\'s jaws.json file', function(done) {
 
       // Get Region JSON
-      var regions = require(path.join(projPath, 'jaws.json'))
+      let regions = require(path.join(projPath, 'jaws.json'))
           .stages[config.stage.toLowerCase().trim()];
-      var region = null;
-      for (var i = 0; i < regions.length; i++) {
+      let region = null;
+      for (let i = 0; i < regions.length; i++) {
         if (regions[i].region.toLowerCase().trim() === config.region.toLowerCase().trim()) {
           region = regions[i];
         }

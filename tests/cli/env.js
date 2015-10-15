@@ -4,13 +4,13 @@
  * JAWS Test: ENV Command
  */
 
-var Jaws = require('../../lib/index.js'),
-    CmdEnv = require('../../lib/commands/env'),
+let Jaws = require('../../lib/index.js'),
+    JawsEnv = require('../../lib/commands/JawsEnv'),
     testUtils = require('../test_utils'),
     path = require('path'),
     assert = require('chai').assert;
 
-var config = require('../config'),
+let config = require('../config'),
     projPath,
     JAWS;
 
@@ -40,7 +40,9 @@ describe('Test "env" command', function() {
     it('Test env command', function(done) {
       this.timeout(0);
 
-      CmdEnv.listEnv(JAWS, config.stage, config.region)
+      let CmdEnv = new JawsEnv(JAWS, config.stage, config.region);
+
+      CmdEnv.listEnv()
           .then(function(d) {
             done();
           })
