@@ -27,7 +27,7 @@ Commands that interact with [aws modules](./aws_modules.md) (awsm)
   
 * ##### aws module installation and update
   
-  * We leverage the most popualar package manager for the runtime and utilize a post-install hook to JAWS stuff.  For example in nodejs: `npm install awsm-images --save`. See [awsm-org](./aws_modules.md) for more info.
+  * We leverage the most popular package manager for the runtime and utilize a post-install hook to JAWS stuff.  For example in nodejs: `npm install awsm-images --save`. See [awsm-org](./aws_modules.md) for more info.
  
 ### Region Commands
 
@@ -71,7 +71,7 @@ Modeled after Heroku's environment variable commands, these commands manage envi
 
 ### Tag Commands
 
-depricated per https://github.com/jaws-framework/JAWS/issues/164
+deprecated per https://github.com/jaws-framework/JAWS/issues/164
 
 ### Deploy Commands
 
